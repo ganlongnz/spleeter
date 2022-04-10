@@ -6,6 +6,7 @@
 > of dedicated GPU package. Please read [CHANGELOG](CHANGELOG.md) for more details.
 
 ## About
+This version is downloaded from Spleeter on April 10.
 
 **Spleeter** is [Deezer](https://www.deezer.com/) source separation library with pretrained models
 written in [Python](https://www.python.org/) and uses [Tensorflow](https://tensorflow.org/). It makes it easy
