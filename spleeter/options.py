@@ -8,6 +8,7 @@ from tempfile import gettempdir
 
 from typer import Argument, Exit, Option, echo
 from typer.models import ArgumentInfo, OptionInfo
+"""Option is a function, which returns a class object. The class is OptionInfo."""
 
 from .audio import Codec, STFTBackend
 

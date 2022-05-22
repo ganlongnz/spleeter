@@ -159,6 +159,7 @@ class EstimatorSpecBuilder(object):
     WINDOW_COMPENSATION_FACTOR = 2.0 / 3.0
     EPSILON = 1e-10
 
+
     def __init__(self, features, params):
         """Default constructor. Depending on built model
         usage, the provided features should be different:
@@ -186,6 +187,8 @@ class EstimatorSpecBuilder(object):
         self._frame_length = params["frame_length"]
         self._frame_step = params["frame_step"]
 
+
+
     def include_stft_computations(self):
         return self._params["stft_backend"] == "tensorflow"
 
@@ -197,7 +200,6 @@ class EstimatorSpecBuilder(object):
         :returns: Build output dict.
         :raise ValueError: If required model_type is not supported.
         """
-
         input_tensor = self.spectrogram_feature
         model = self._params.get("model", None)
         if model is not None:
@@ -418,6 +420,10 @@ class EstimatorSpecBuilder(object):
         elif extension == "zeros":
             mask_shape = tf.shape(mask)
             extension_row = tf.zeros((mask_shape[0], mask_shape[1], 1, mask_shape[-1]))
+
+            # sess = tf.compat.v1.InteractiveSession()
+            # print(mask_shape.eval())
+
         else:
             raise ValueError(f"Invalid mask_extension parameter {extension}")
         n_extra_row = self._frame_length // 2 + 1 - self._F

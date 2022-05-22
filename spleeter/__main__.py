@@ -30,10 +30,12 @@ from .utils.logging import configure_logger, logger
 # pylint: enable=import-error
 
 spleeter: Typer = Typer(add_completion=False, no_args_is_help=True, short_help="-h")
+# app = Typer(add_completion=False, no_args_is_help=True, short_help="-h")
 """ CLI application. """
 
 
 @spleeter.callback()
+# @app.callback()
 def default(
     version: bool = VersionOption,
 ) -> None:
@@ -41,6 +43,7 @@ def default(
 
 
 @spleeter.command(no_args_is_help=True)
+# @app.command(no_args_is_help=True)
 def train(
     adapter: str = AudioAdapterOption,
     data: Path = TrainingDataDirectoryOption,
@@ -51,6 +54,8 @@ def train(
     Train a source separation model
     """
     import tensorflow as tf
+    import pdb;
+    pdb.set_trace()
 
     from .audio.adapter import AudioAdapter
     from .dataset import get_training_dataset, get_validation_dataset
@@ -64,6 +69,8 @@ def train(
     params = load_configuration(params_filename)
     session_config = tf.compat.v1.ConfigProto()
     session_config.gpu_options.per_process_gpu_memory_fraction = 0.45
+    import pdb;
+    pdb.set_trace()
     estimator = tf.estimator.Estimator(
         model_fn=model_fn,
         model_dir=params["model_dir"],
@@ -92,6 +99,7 @@ def train(
 
 
 @spleeter.command(no_args_is_help=True)
+# @app.command(no_args_is_help=True)
 def separate(
     deprecated_files: Optional[str] = AudioInputOption,
     files: List[Path] = AudioInputArgument,
@@ -124,6 +132,8 @@ def separate(
     separator: Separator = Separator(
         params_filename, MWF=mwf, stft_backend=stft_backend
     )
+
+
     for filename in files:
         separator.separate_to_file(
             str(filename),
@@ -190,6 +200,7 @@ def _compile_metrics(metrics_output_directory) -> Dict:
 
 
 @spleeter.command(no_args_is_help=True)
+# @app.command(no_args_is_help=True)
 def evaluate(
     adapter: str = AudioAdapterOption,
     output_path: Path = AudioOutputOption,
@@ -253,7 +264,8 @@ def evaluate(
 def entrypoint():
     """Application entrypoint."""
     try:
-        spleeter()
+       spleeter()
+       # app()
     except SpleeterError as e:
         logger.error(e)
 
